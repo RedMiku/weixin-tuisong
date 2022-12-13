@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>❤欢迎静静❤</title>
+</head>
+<style type="text/css">
+    html {
+        /* 定义变量 */
+        --bgColor: #e2c2e4;
+
+        /* rgba的四个值分别为：红(R)、绿(G)、蓝(B)、透明度(A) */
+        --whiteShadow: -15px -15px 25px rgba(221, 117, 255, 0.5);
+        --blackShadow: 15px 15px 25px rgba(110, 40, 40, .2);
+    }
+
+    /* 设置一些页面的布局样式 */
+    body {
+        display: grid;
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 70vh;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--bgColor);
+        text-align: center;
+    }
+
+    one {
+        border-radius: 45px;
+        background: linear-gradient(145deg, #e2c2e4, #ffe7ff);
+        box-shadow:  30px 30px 61px #c4a8c5,
+        -30px -30px 61px #ffffff;
+    }
+
+    .card {
+        width: 30vh;
+        height: 8vh;
+        margin: 45px;
+        background-color: var(--bgColor);
+        border-radius: 30px;
+        font-size: 50px;
+        font-family: 楷体;
+    }
+
+    .card a{
+        /* 去掉按钮中a的下划线 */
+        text-decoration: none;
+    }
+
+    /* 主要部分 */
+    .one {
+        /* 设置外阴影 */
+        box-shadow: var(--blackShadow),
+        var(--whiteShadow);
+    }
+
+    .two {
+        /* 设置内阴影 */
+        /*box-shadow: inset var(--blackShadow),*/
+        /*inset var(--whiteShadow);*/
+        /* 设置外阴影 */
+        box-shadow: var(--blackShadow),
+        var(--whiteShadow);
+    }
+
+    .three {
+        /* 设置外阴影 */
+        box-shadow: var(--blackShadow),
+        var(--whiteShadow);
+    }
+
+    .four {
+        /* 设置内阴影 */
+        box-shadow: inset var(--blackShadow),
+        inset var(--whiteShadow);
+    }
+
+    .card:hover{
+        box-shadow: 0px 0px 0px rgba(0,0,0,0.1) ,0px 0px 0px rgba(255,255,255,1),inset 18px 18px 30px rgba(0,0,0,0.1),inset -18px -18px 30px rgba(255,255,255,1);
+        transition: box-shadow .2s ease-out;
+    }
+    .card:hover a{
+        width: 58px;
+        transition: width .2s ease-out;
+    }
+
+</style>
+<body>
+    <div class="card one">
+        <a href="../guagua/guagua.html">呱呱</a>
+    </div>
+    <div class="card two">
+        <a href="../clock/clock.html">滴答滴答</a>
+    </div>
+    <div class="card three">
+        <a href="../paint/paint.html">刷刷刷</a>
+    </div>
+    <div class="card four">
+        <a href="../game1/game1.html">致静静</a>
+    </div>
+</body>
+
+</html>

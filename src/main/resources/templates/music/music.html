@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>player</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+    <style>
+
+        body {
+            margin: 0;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            background-color: rgba(109, 108, 108, 0.68);
+        }
+
+        #player {
+            position: relative;
+            width: 100%;
+            height: 200px;
+        }
+
+        #selectSongs {
+            position: relative;
+            width: 100%;
+            height: 26px;
+            line-height: 26px;
+            font-size: 18px;
+            text-align: center;
+            color: white;
+            background-color: #5ece5e;
+        }
+
+        #selectSongs > input {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        #selectSongs:hover {
+            background-color: #53bd53;
+        }
+
+        #selectSongs:active {
+            background-color: #33ab33;
+        }
+
+        #tracklist {
+            position: relative;
+            box-sizing: border-box;
+            width: 100%;
+            height: 140px;
+            margin: 0;
+            padding-bottom: 6px;
+            padding-left: 0;
+            color: white;
+            overflow: auto;
+        }
+
+        #operation {
+            position: relative;
+            width: 100%;
+            height: 18px;
+            top: -18px;
+            margin-bottom: 6px;
+            background-color: #ccc;
+            font-size: 14px;
+        }
+
+        /* 操作条( operation )上的显示动画 */
+
+        @keyframes opDisplay {
+            0% {top: -18px}
+            100% {top: 0}
+        }
+
+        .opDisplay {
+            animation: opDisplay 0.1s linear 1 forwards;
+        }
+
+        #operation > span {
+            display: inline-block;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            background-color: #9c7979;
+            cursor: pointer;
+        }
+
+        #operation > span:hover {
+            background-color: #8a6262;
+        }
+
+        #operation > span:active {
+            background-color: #7b5656;
+        }
+
+        #selectAll {
+            width: 20%;
+            margin-left: -4px;
+        }
+
+        #delete {
+            width: 40%;
+            margin-left: -5px;
+        }
+
+        #empty {
+            width: 40%;
+            margin-left: -5px;
+        }
+
+        #tracklist > li {
+            height: 1.5em;
+            line-height: 1.5em;
+            padding-left: 30px;
+            list-style: none;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        #tracklist > li > input {
+            position: relative;
+            left: -16px;
+            top: 1px;
+        }
+
+        #tracklist > li:hover {
+            background-color: rgba(212, 194, 194, 0.3);
+        }
+
+        .activeList {
+            background-color: rgba(212, 194, 194, 0.68);
+        }
+
+        #ctrls {
+            position: relative;
+            box-sizing: border-box;
+            width: 100%;
+            height: 34px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .ctrl {
+            position: absolute;
+            cursor: pointer;
+            top: 8px;
+        }
+
+        #switch {
+            left: 10px;
+        }
+
+        #switch:hover {
+            color: #f3dcdc;
+        }
+
+        #progressBar {
+            width: 60%;
+            height: 2px;
+            left: 50px;
+            top: 16px;
+            background-color: #ccc;
+            border-radius: 1px;
+        }
+
+        #progressBar.playing {
+            background-color: #f9bfbf;
+        }
+
+        #progressStateBar {
+            position: absolute;
+            height: 2px;
+            left: 0;
+            top: 0;
+        }
+
+        #progressBall {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            top: -4px;
+            background-color: #f9dc09;
+            border-radius: 10px;
+        }
+
+        #progressBall:hover {
+            background-color: #e2c806;
+        }
+
+        #countdown {
+            width: 100px;
+            left: 68%;
+            text-align: center;
+            color: #eae3ae;
+            cursor: default;
+        }
+
+        #mode {
+            width: 60px;
+            right: 10%;
+        }
+
+        #mode:hover {
+            color: #f3dcdc;
+        }
+
+        #modeOption {
+            display: none;
+            position: absolute;
+            width: 80%;
+            top: -85px;
+            left: 3px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            font-size: 12px;
+        }
+
+        #modeOption > li {
+            width: 100%;
+            line-height: 18px;
+            text-align: center;
+            color: white;
+        }
+
+        #modeOption > li:hover {
+            background-color: #5ece5e;
+        }
+
+        .activeModeOption {
+            background-color: #5ece5e;
+        }
+
+        #volume {
+            width: 30px;
+            right: 3%;
+        }
+
+        #volume:hover {
+            color: #f3dcdc;
+        }
+
+        #volumeWrapper {
+            display: none;
+            position: absolute;
+            width: 50%;
+            height: 60px;
+            left: 5px;
+            top: -75px;
+        }
+
+        #volumeWrapper div {
+            position: absolute;
+        }
+
+        #volumeBar {
+            width: 2px;
+            height: 60px;
+            left: 8px;
+            background-color: white;
+        }
+
+        #volumeBall {
+            width: 10px;
+            height: 10px;
+            left: -4px;
+            top: 0;
+            background-color: #f9dc09;
+            border-radius: 10px;
+        }
+
+        #volumeBall:hover {
+            background-color: #e2c806;
+        }
+
+        #mask {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+        }
+
+        #alert {
+            display: none;
+            position: absolute;
+            width: 100%;
+            height: 80px;
+            left: 0;
+            top: 60px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        #dialog {
+            display: none;
+            position: relative;
+            width: 160px;
+            height: 100%;
+            line-height: 26px;
+            margin: 0 auto;
+            border-radius: 3px;
+            background-color: #515158;
+        }
+
+        #dialog > p {
+            margin: 0;
+            padding: 10px 0;
+        }
+
+        #dialog > a {
+            display: inline-block;
+            width: 60px;
+            text-decoration: none;
+            color: #A99B9B;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        #dialog > a:hover {
+            background-color: #ff704d;
+            color: white;
+        }
+
+        #dialog > a:active {
+            box-shadow: 1px 1px 1px #888888;
+        }
+
+        @media screen and (max-width: 800px) {
+            body {
+                width: 800px;
+            }
+            #progressBar {
+                width: 480px;
+            }
+            #countdown {
+                left: 544px;
+            }
+            #mode {
+                right: 80px;
+            }
+            #volume {
+                right: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="player">
+    <div id="selectSongs">
+        <input title="选取本地音乐" id="fileInput" type="file" multiple="multiple" />
+        点击添加本地音乐
+    </div>
+    <ul id="tracklist">
+        <div id="operation">
+            <span id="selectAll">全选</span>
+            <span id="delete">删除所选曲目</span>
+            <span id="empty">清空列表</span>
+        </div>
+    </ul>
+    <audio id="audio"></audio>
+    <div id="ctrls" style="border-top: 1px solid white; border-bottom: 1px solid white;">
+        <div class="ctrl" id="switch" title="暂无要播放的音乐">播放</div>
+        <div class="ctrl" id="progressBar">
+            <div id="progressStateBar">
+                <div id="progressBall" style="left: 0%;"></div>
+            </div>
+        </div>
+        <div class="ctrl" id="countdown">
+            <span id="count">00:00</span>
+            <span id="duration"></span>
+        </div>
+        <div class="ctrl" id="mode" title="切换模式">播放模式
+            <ul id="modeOption">
+                <li id="sequential" class="activeModeOption">顺序</li>
+                <li id="loop">循环</li>
+                <li id="random">随机</li>
+                <li id="single">单曲</li>
+            </ul>
+        </div>
+        <div class="ctrl" id="volume" title="调节音量">音量
+            <div id="volumeWrapper">
+                <div id="volumeBar">
+                    <div id="volumeBall"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mask"></div>
+    <div id="alert">
+        <div id="dialog">
+            <p>确定清空吗？</p>
+            <a href="javascript:void(0)" id="yes">确定</a>
+            <a href="javascript:void(0)" id="no">取消</a>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    /* Song */
+
+    function Song(file) {
+        this.file = file;
+    }
+
+    Song.filter = function (file) {
+        return /audio/i.test(file.type);
+    };
+
+    Song.prototype.getName = function () {
+        var sWholeName = this.file.name;
+        return sWholeName.substring(0, sWholeName.lastIndexOf("."));
+    };
+
+    Song.prototype.getURL = function (global) {
+        return global.URL.createObjectURL(this.file);
+    };
+
+    Song.prototype.load = function (audio, global) {
+        audio.src = this.getURL(global);
+    };
+
+
+    /* SongListManager */
+
+    var SongListManager = (function () {
+        var oParent, sChildTag = "li", aChilds = [], aSongLists = [], bListBeClicked = false, iActiveListIdx = -1;
+
+        return {
+            init: function (parentEl) {
+                oParent = parentEl;
+            },
+            addSong: function (el, song) {
+                el.song = song;
+            },
+            create: function () {
+                var	oLi = document.createElement(sChildTag),
+                    oCheckBox = document.createElement("input");
+
+                oCheckBox.type = "checkbox";
+                oCheckBox.title = "点击选取";
+                oLi.appendChild(oCheckBox);
+                return oLi;
+            },
+            generate: function (song) {
+                var oChild = null,
+                    sName = song.getName()
+                oTextNode = document.createTextNode(sName);
+
+                if (aChilds.length) {
+                    oChild = aChilds.shift();
+                } else {
+                    oChild = this.create();
+                }
+
+                this.addSong(oChild, song);
+                oChild.appendChild(oTextNode);
+                oChild.title = "点击播放";
+                oParent.appendChild(oChild);
+                aSongLists.push(oChild);
+            },
+            recover: function (child) {
+                child.song = null;
+                child.className = "";
+                child.title = "点击播放";
+                child.getElementsByTagName("input")[0].checked = false;
+                child.lastChild.nodeValue = "";
+                aChilds.push(child);
+            },
+            remove: function (child) {
+                for (var i = 0, len = aSongLists.length; i < len; ++i) {
+                    if (aSongLists[i] === child) {
+                        aSongLists.splice(i, 1);
+                        break;
+                    }
+                }
+                this.recover( oParent.removeChild(child) );
+            },
+            clickHandler: function (target, audio, global) {
+                var song = target.song;
+                song.load(audio, global);
+
+                for (var i = 0, len = aSongLists.length; i < len; ++i) {
+                    var oList = aSongLists[i];
+                    if (oList.className === "activeList") {
+                        oList.className = "";
+                        oList.title = "点击播放";
+                    }
+                    if (aSongLists[i] === target) {
+                        iActiveListIdx = i;
+                    }
+                }
+                target.className = "activeList";
+                target.title = "正在播放";
+                bListBeClicked = true;
+            },
+            beClicked: function () {
+                return bListBeClicked;
+            },
+            resetBeClicked: function () {
+                bListBeClicked = false;
+            },
+            setActiveIdx: function (index) {
+                iActiveListIdx = index;
+            },
+            getActiveIdx: function () {
+                return iActiveListIdx;
+            },
+            selectAll: function () {
+                var iListsLen = aSongLists.length;
+                if (iListsLen === 0) return;
+
+                var oList, oCheckBox, aCheckBoxes = [],
+                    iCheckedCounter = 0, i;
+
+                for (i = 0; i < iListsLen; ++i) {
+                    oList = aSongLists[i];
+                    oCheckBox = oList.firstElementChild;
+                    aCheckBoxes.push(oCheckBox);
+                    if (oCheckBox.checked) ++iCheckedCounter;
+                }
+
+                if (iCheckedCounter === iListsLen) {
+                    for (i = 0; i < iListsLen; ++i) {
+                        aCheckBoxes[i].checked = false;
+                    }
+                } else {
+                    for (i = 0; i < iListsLen; ++i) {
+                        aCheckBoxes[i].checked = true;
+                    }
+                }
+            },
+            deleteMethod: function (oSwitch, global, proBall, proBar, count, duration, bEmpty) {
+                var iListsLen = aSongLists.length;
+                if (iListsLen === 0) return;
+
+                var oList, oCheckBox, aCheckedLists = [], iCheckedListsLen, i;
+                for (i = 0; i < iListsLen; ++i) {
+                    oList = aSongLists[i];
+                    oCheckBox = oList.firstElementChild;
+                    if (oCheckBox.checked) {
+                        aCheckedLists.push(oList);
+                    }
+                }
+
+                if (aCheckedLists.length === 0) return;
+
+                var oPlayingList = null, counter = 0,
+                    oActiveList = aSongLists[iActiveListIdx],
+                    iListNewLen, iNewActiveIdx;
+
+                for (i = 0, iCheckedListsLen = aCheckedLists.length; i < iCheckedListsLen; ++i) {
+                    if (oActiveList && counter === 0) {
+                        if (aCheckedLists[i] === oActiveList) {
+                            oPlayingList = aCheckedLists[i];
+                            iActiveListIdx = -1;
+                            if ( this.beClicked() ) this.resetBeClicked();
+                            ++counter;
+                        }
+                    }
+                    this.remove(aCheckedLists[i]);
+                }
+
+                if (oPlayingList) {
+                    AudioManager.initSwitch(oSwitch, proBar);
+                    AudioManager.reset(proBall, proBar, count, duration);
+                    AudioManager.loadNextAccordingToMode(oSwitch, global);
+                } else {
+                    if (!oActiveList) return;
+
+                    iListNewLen = aSongLists.length;
+                    for (i = 0; i < iListNewLen; ++i) {
+                        if (aSongLists[i] === oActiveList) {
+                            iNewActiveIdx = i;
+                            iActiveListIdx = iNewActiveIdx;
+                        }
+                    }
+                }
+            },
+            empty: function (audio, oSwitch, proBall, proBar, count, duration) {
+                var iListsLen = aSongLists.length;
+                if (iListsLen === 0) return;
+
+                var i, oList, aListsToRemove = [],
+                    oPlayingList = null, counter = 0,
+                    oActiveList = aSongLists[iActiveListIdx];
+
+                for (i = 0; i < iListsLen; ++i) {
+                    oList = aSongLists[i];
+                    if (oActiveList && counter === 0) {
+                        if (oList === oActiveList) {
+                            oPlayingList = oList;
+                            ++counter;
+                        }
+                    }
+                    aListsToRemove.push(oList);
+                }
+                for (i = 0; i < iListsLen; ++i) {
+                    this.remove(aListsToRemove[i]);
+                }
+
+                if (oPlayingList) {
+                    audio.src = "";
+                    AudioManager.initSwitch(oSwitch, proBar);
+                    AudioManager.reset(proBall, proBar, count, duration);
+                }
+
+                iActiveListIdx = -1;
+                if ( this.beClicked() ) this.resetBeClicked();
+            },
+            displayDialog: function (mask, alert, dialog) {
+                if (aSongLists.length === 0) return;
+                mask.style.display = "block";
+                alert.style.display = "block";
+                dialog.style.display = "block";
+            },
+            hiddenDialog: function (mask, alert, dialog) {
+                mask.style.display = "none";
+                alert.style.display = "none";
+                dialog.style.display = "none";
+            },
+            songLists: aSongLists
+        };
+    })();
+
+
+    /* AudioManager */
+
+    var AudioManager = (function () {
+        var oPlayer, sSwitchState = "off", bStartPlay = false,
+            iCurDuration, aStepTimes = [], iStepTimesLen, iCurStepIdx,
+            iProStateBarLen, iProStateBarLeft,
+            iProBallWidth, iProBallLeft = 0, aProBallDragStepLens = [0], bDraggingProBall = false,
+            aTimes = [], iCurTimeIdx,
+            sCurMode = "sequential", iActiveListIdx, iNextSongIdx,
+            iVWOffsetTop;
+
+        return {
+            init: function (audio, proBar, proStateBar, proBall) {
+                oPlayer = audio;
+                iProBarLen = proBar.offsetWidth;
+                iProBallWidth = proBall.offsetWidth;
+                this.setProStateBarLen(proBar, proStateBar);
+                iProStateBarLeft = proBar.offsetLeft;
+            },
+            reset: function (proBall, proBar, count, duration) {
+                oPlayer.src = "";
+                proBall.style.left = "0%";
+                proBar.className = "ctrl";
+                count.innerHTML = "00:00";
+                duration.innerHTML = "";
+                sSwitchState = "off";
+                bStartPlay = false;
+            },
+            unexpectedReset: function (proBall, count) {
+                proBall.style.left = "0%";
+                count.innerHTML = "00:00";
+                sSwitchState = "off";
+                bStartPlay = false;
+            },
+            startPlay: function () {
+                bStartPlay = true;
+            },
+            isStart: function () {
+                return bStartPlay;
+            },
+            initSwitch: function (oSwitch, proBar) {
+                sSwitchState = "off";
+                oSwitch.innerHTML = "播放";
+                oSwitch.title = "暂无要播放的音乐";
+                proBar.className = "ctrl";
+            },
+            toggleSwitch: function (oSwitch, proBar) {
+                if (!bStartPlay) return;
+
+                if (sSwitchState === "off") {
+                    sSwitchState = "on";
+                    oSwitch.innerHTML = "暂停";
+                    oSwitch.title = "点击暂停";
+                    proBar.className = "ctrl playing";
+                } else if (sSwitchState === "on") {
+                    sSwitchState = "off";
+                    oSwitch.innerHTML = "播放";
+                    oSwitch.title = "点击播放";
+                    proBar.className = "ctrl";
+                }
+            },
+            setProStateBarLen: function (proBar, proStateBar) {
+                iProStateBarLen = proBar.offsetWidth - iProBallWidth;
+                proStateBar.style.width = iProStateBarLen + "px";
+            },
+            setProBallDragStep: function () {
+                if (iStepTimesLen === undefined) return;
+
+                var iProBallDragStepLen, i;
+                if (aProBallDragStepLens.length !== 1) {
+                    aProBallDragStepLens.length = 0;
+                    aProBallDragStepLens.push(0);
+                }
+                for (i = 1; i <= iStepTimesLen; ++i) {
+                    iProBallDragStepLen = Math.round(iProStateBarLen * ( i / iStepTimesLen ));
+                    aProBallDragStepLens.push(iProBallDragStepLen);
+                }
+            },
+            initProgress: function () {
+                var nStepTime, len, i;
+
+                iCurDuration = parseInt(oPlayer.duration);
+                aStepTimes.length = 0;
+                iCurStepIdx = 0;
+
+                if (iCurDuration >= 100) {
+                    nStepTime = iCurDuration / 100;
+                    len = 100;
+                } else {
+                    nStepTime = 1;
+                    len = iCurDuration;
+                }
+                for (i = 1; i <= len; ++i) {
+                    aStepTimes.push(nStepTime * i);
+                }
+                iStepTimesLen = len;
+
+                this.setProBallDragStep();
+            },
+            moveProBall: function (proBall, curTime) {
+                var fProBallStepPercent = parseFloat( proBall.style.left );
+                if (iCurDuration >= 100) {
+                    if (fProBallStepPercent == 100) return;
+
+                    if (curTime >= aStepTimes[iCurStepIdx]) {
+                        fProBallStepPercent += 1;
+                        ++iCurStepIdx;
+                    }
+                } else {
+                    if ( fProBallStepPercent > (100 - 100 / iStepTimesLen) ) {
+                        proBall.style.left = "100%";
+                        return;
+                    }
+
+                    if (curTime >= aStepTimes[iCurStepIdx]) {
+                        fProBallStepPercent += 100 / iStepTimesLen;
+                        ++iCurStepIdx;
+                    }
+                }
+
+                proBall.style.left = fProBallStepPercent + "%";
+            },
+            isDraggingProBall: function () {
+                return bDraggingProBall;
+            },
+            resetDraggingProBall: function () {
+                bDraggingProBall = false;
+            },
+            getProBallDisX: function (downPageX, proBall) {
+                bDraggingProBall = true;
+                return downPageX - (iProStateBarLeft + proBall.offsetLeft);
+            },
+            setProBallLeft: function (movePageX, disX, proBall) {
+                var iProBallLeft = movePageX - iProStateBarLeft - disX;
+                if (iProBallLeft < 0) {
+                    proBall.style.left = "0%";
+                    return;
+                }
+                if (iProBallLeft > iProStateBarLen) {
+                    proBall.style.left = "100%";
+                    return;
+                }
+
+                var iBallLeftPercentToInt = parseInt((iProBallLeft / iProStateBarLen) * 100),
+                    iBallStepLen = aProBallDragStepLens[iBallLeftPercentToInt];
+
+                if (iProBallLeft >= iBallStepLen) {
+                    proBall.style.left = iBallLeftPercentToInt + "%";
+                }
+            },
+            setProgressByDragBall: function (proBall, count) {
+                var iProBallLeftPercentToInt = parseInt(proBall.style.left);
+
+                if (iProBallLeftPercentToInt <= 0) {
+                    oPlayer.currentTime = 0;
+                    iCurStepIdx = 0;
+                    iCurTimeIdx = 0;
+                    count.innerHTML = "00:00";
+                } else if (iProBallLeftPercentToInt >= 100) {
+                    oPlayer.currentTime = iCurDuration;
+                    iCurStepIdx = iCurDuration;
+                    iCurTimeIdx = aTimes.length;
+                    count.innerHTML = this.formatTime(iCurDuration);
+                } else {
+                    var iCurIdx = iProBallLeftPercentToInt - 1;
+
+                    oPlayer.currentTime = aStepTimes[iCurIdx];
+                    iCurStepIdx = iProBallLeftPercentToInt;
+                    iCurTimeIdx = parseInt(aStepTimes[iCurIdx]);
+                    count.innerHTML = this.formatTime(iCurTimeIdx);
+                }
+            },
+            initCountdown: function (duration) {
+                aTimes.length = 0;
+
+                for (var i = 1, len = iCurDuration; i <= len; ++i) {
+                    aTimes.push(i);
+                }
+                iCurTimeIdx = 0;
+
+                duration.innerHTML = "/ " + this.formatTime(iCurDuration);
+            },
+            updateCountdown: function (curTime, count) {
+                if (iCurTimeIdx === aTimes.length) return;
+                if (curTime >= aTimes[iCurTimeIdx]) {
+                    count.innerHTML = this.formatTime(aTimes[iCurTimeIdx]);
+                    ++iCurTimeIdx;
+                }
+            },
+            formatTime: function (time) {
+                var iMin, iSec, sResult;
+
+                iMin = parseInt( time / 60 );
+                iSec = time % 60;
+
+                sResult = this._toDouble(iMin)
+                    + ":"
+                    + this._toDouble(iSec);
+                return sResult;
+            },
+            _toDouble: function (n) {
+                if (n < 10) {
+                    return "0" + n;
+                } else {
+                    return "" + n;
+                }
+            },
+            toggleDisplayHidden: function (wrapper) {
+                var sDisplay = wrapper.style.display;
+
+                if (sDisplay === "" ||
+                    sDisplay === "none") {
+                    wrapper.style.display = "block";
+                } else if (sDisplay === "block") {
+                    wrapper.style.display = "none";
+                }
+            },
+            changeMode: function (option) {
+                var oParent = option.parentNode,
+                    cOptions = oParent.children,
+                    len = cOptions.length,
+                    i;
+
+                sCurMode = option.id;
+
+                for (i = 0; i < len; ++i) {
+                    if (cOptions[i].className === "activeModeOption") {
+                        cOptions[i].className = "";
+                        break;
+                    }
+                }
+                option.className = "activeModeOption";
+            },
+            loadNextAccordingToMode: function (oSwitch, global) {
+                var aSongLists = SongListManager.songLists,
+                    len = aSongLists.length;
+                if (len === 0) {
+                    oPlayer.src = "";
+                    return;
+                }
+
+                var	iLastIdx = len - 1,
+                    oCurList, oNextList, oNextSong,
+                    iActiveListIdxCopy;
+
+                if (SongListManager.getActiveIdx() === -1) {
+                    oNextList = aSongLists[0];
+                    oNextList.className = "activeList";
+                    oNextList.title = "正在播放";
+                    oNextSong = oNextList.song;
+                    oNextSong.load(oPlayer, global);
+                    iActiveListIdx = iNextSongIdx = 0;
+                    SongListManager.setActiveIdx(iActiveListIdx);
+                    return;
+                }
+
+                if ( SongListManager.beClicked() ) {
+                    iActiveListIdx = SongListManager.getActiveIdx(),
+                        SongListManager.resetBeClicked();
+                }
+                iActiveListIdxCopy = iActiveListIdx;
+
+                switch (sCurMode) {
+                    case "sequential":
+                        iNextSongIdx = ++iActiveListIdxCopy;
+                        if (iNextSongIdx > iLastIdx) {
+                            oCurList = aSongLists[iLastIdx];
+                            iNextSongIdx = iLastIdx;
+                            oPlayer.src = "";
+                            oCurList.className = "";
+                            oCurList.title = "点击播放";
+                            oSwitch.title = "暂无要播放的音乐";
+                            return;
+                        }
+                        break;
+                    case "loop":
+                        iNextSongIdx = ++iActiveListIdxCopy;
+                        if (iNextSongIdx > iLastIdx) {
+                            iNextSongIdx = 0;
+                        }
+                        break;
+                    case "random":
+                        iNextSongIdx = Math.floor( Math.random() * len );
+                        break;
+                    case "single":
+                        iNextSongIdx = iActiveListIdxCopy;
+                        break;
+                }
+
+                oCurList = aSongLists[iActiveListIdx];
+                oNextList = aSongLists[iNextSongIdx];
+                if (oCurList) {
+                    oCurList.className = "";
+                    oCurList.title = "点击播放";
+                }
+                oNextList.className = "activeList";
+                oNextList.title = "正在播放";
+
+                oNextSong = aSongLists[iNextSongIdx].song;
+                oNextSong.load(oPlayer, global);
+
+                iActiveListIdx = iNextSongIdx;
+                SongListManager.setActiveIdx(iActiveListIdx);
+            },
+            getVWOffsetTop: function (fileInput, tracklist, ctrls, volume, volumeWrapper) {
+                var iTop_up = fileInput.offsetHeight +
+                    tracklist.offsetHeight +
+                    parseInt( ctrls.style.borderTop ) +
+                    volume.offsetTop +
+                    volumeWrapper.offsetTop;
+                return iVWOffsetTop = iTop_up;
+            },
+            getVBDisY: function (fileInput, tracklist, ctrls, volume, volumeWrapper, volumeBall, downPageY) {
+                var iTop_up = iVWOffsetTop || this.getVWOffsetTop(fileInput, tracklist, ctrls, volume, volumeWrapper),
+                    iVBTop = volumeBall.offsetTop,
+                    iDisY = downPageY - ( iVBTop + iTop_up );
+
+                return iDisY;
+            },
+            setVBTop: function (movePageY, disY, volumeWrapper, volumeBall) {
+                var iMoved_top = movePageY - disY - iVWOffsetTop,
+                    iMaxHeight = volumeWrapper.offsetHeight - volumeBall.offsetHeight;
+                if (iMoved_top < 0) {
+                    iMoved_top = 0;
+                } else if (iMoved_top > iMaxHeight) {
+                    iMoved_top = iMaxHeight;
+                }
+                volumeBall.style.top = iMoved_top + "px";
+                return iMoved_top;
+            },
+            setVolume: function (vbTop, audio) {
+                var fVolumeVal;
+                if (vbTop == 50) {
+                    fVolumeVal = 0.0;
+                } else if (vbTop >= 40 && vbTop < 50) {
+                    fVolumeVal = 0.2;
+                } else if (vbTop >= 30 && vbTop < 40) {
+                    fVolumeVal = 0.4;
+                } else if (vbTop >= 20 && vbTop < 30) {
+                    fVolumeVal = 0.6;
+                } else if (vbTop >= 10 && vbTop < 20) {
+                    fVolumeVal = 0.8;
+                } else if (vbTop >= 0 && vbTop < 10) {
+                    fVolumeVal = 1.0;
+                }
+                audio.volume = fVolumeVal;
+            }
+        };
+    })();
+
+
+    /* 定义引用页面元素的全局变量 */
+
+    var oFileInput = document.getElementById("fileInput"),
+        oTracklist = document.getElementById("tracklist"),
+        oOperation = document.getElementById("operation"),
+        oSelectAll = document.getElementById("selectAll"),
+        oDelete = document.getElementById("delete"),
+        oEmpty = document.getElementById("empty"),
+        oMask = document.getElementById("mask"),
+        oAlert = document.getElementById("alert"),
+        oDialog = document.getElementById("dialog"),
+        oYes = document.getElementById("yes"),
+        oNo = document.getElementById("no"),
+        oAudio = document.getElementById("audio"),
+        oCtrls = document.getElementById("ctrls"),
+        oSwitch = document.getElementById("switch"),
+        oProgressBar = document.getElementById("progressBar"),
+        oProgressStateBar = document.getElementById("progressStateBar"),
+        oProgressBall = document.getElementById("progressBall"),
+        oCountdown = document.getElementById("countdown"),
+        oCount = document.getElementById("count"),
+        oDuration = document.getElementById("duration"),
+        oMode = document.getElementById("mode"),
+        oModeOption = document.getElementById("modeOption"),
+        oVolume = document.getElementById("volume"),
+        oVolumeWrapper = document.getElementById("volumeWrapper"),
+        oVolumeBall = document.getElementById("volumeBall");
+
+
+    /* 初始化 SongListManager 和 AudioManager */
+
+    SongListManager.init(oTracklist);
+    AudioManager.init(oAudio,oProgressBar, oProgressStateBar, oProgressBall);
+
+
+    /* change event on input(type="file") */
+
+    oFileInput.onchange = function (event) {
+        event.stopPropagation();
+        event.preventDefault();
+
+        var cFiles = event.target.files,
+            fnFilter = Array.prototype.filter,
+            aSongFiles;
+
+        aSongFiles = fnFilter.call(cFiles, function (file) { return Song.filter(file); });
+
+        aSongFiles.forEach(function (file) {
+            var oSong = new Song(file);
+            SongListManager.generate(oSong);
+        });
+    };
+
+
+    /* mouseover & mouseout event on tracklist */
+
+    oTracklist.onmouseover = function () {
+        oOperation.className = "opDisplay";
+    };
+
+    oTracklist.onmouseout = function () {
+        oOperation.className = "";
+    };
+
+
+    /* click event on document */
+
+    document.onclick = function (event) {
+        var target = event.target;
+
+        // 处理歌曲列表上的点击事件
+        if (target.song) {
+            SongListManager.clickHandler(target, oAudio, window);
+            if (AudioManager.isStart()) {
+                AudioManager.unexpectedReset(oProgressBall, oCount);
+            }
+        }
+
+        // switch 按钮点击事件
+        if (target.id === "switch") {
+            if (!AudioManager.isStart()) return;
+            if (oAudio.paused) {
+                oAudio.play();
+            } else {
+                oAudio.pause();
+            }
+            AudioManager.toggleSwitch(target, oProgressBar);
+        }
+
+        // 播放模式 点击事件
+        if (target.id === "mode") {
+            AudioManager.toggleDisplayHidden(oModeOption);  // 显示/隐藏模式选项
+        }
+
+        if (target.parentNode === oModeOption) {
+            AudioManager.changeMode(target);  // 切换模式
+        }
+
+        // 音量 点击事件
+        if (target.id === "volume") {
+            AudioManager.toggleDisplayHidden(oVolumeWrapper);  // 显示/隐藏音量条
+        }
+
+        /* 歌曲列表操作 事件 */
+
+        // 全选 点击事件
+        if (target.id === "selectAll") {
+            SongListManager.selectAll();
+        }
+
+        // 删除所选曲目 点击事件
+        if (target.id === "delete") {
+            SongListManager.deleteMethod(oSwitch, window, oProgressBall, oProgressBar, oCount, oDuration);
+        }
+
+        // 清空列表 点击事件
+        if (target.id === "empty") {
+            SongListManager.displayDialog(oMask, oAlert, oDialog);
+        }
+
+        if (target.id === "yes") {
+            SongListManager.empty(oAudio, oSwitch, oProgressBall, oProgressBar, oCount, oDuration);
+            SongListManager.hiddenDialog(oMask, oAlert, oDialog);
+        }
+
+        if (target.id === "no") {
+            SongListManager.hiddenDialog(oMask, oAlert, oDialog);
+        }
+    };
+
+
+    /* mousedown event on document */
+
+    document.onmousedown = function (event) {
+        var target = event.target;
+
+        if (target === oVolumeBall) {
+            var iDownPageY = event.pageY,
+                iDisY = AudioManager.getVBDisY(oFileInput, oTracklist, oCtrls, oVolume, oVolumeWrapper, oVolumeBall, iDownPageY);
+
+            // mousemove on document
+            document.onmousemove = function (event) {
+                var iMovePageY = event.pageY;
+                AudioManager.setVolume(AudioManager.setVBTop(iMovePageY, iDisY, oVolumeWrapper, oVolumeBall), oAudio);
+            };
+
+            // mouseup on document
+            document.onmouseup = function () {
+                document.onmousemove = null;   // 取消 mousemove 事件
+                document.onmouseup = null;
+            }
+        }
+
+        if (target === oProgressBall && AudioManager.isStart()) {
+            var iDownPageX = event.pageX,
+                iDisX = AudioManager.getProBallDisX(iDownPageX, oProgressBall);
+
+            document.onmousemove = function (event) {
+                var iMovePageX = event.pageX;
+
+                AudioManager.setProBallLeft(iMovePageX, iDisX, oProgressBall);
+            };
+
+            document.onmouseup = function () {
+                document.onmousemove = null;
+                document.onmouseup = null;
+                AudioManager.resetDraggingProBall();
+                AudioManager.setProgressByDragBall(oProgressBall, oCount);
+            };
+        }
+    };
+
+
+    /* resize event on window */
+
+    window.onresize = function () {
+        AudioManager.setProStateBarLen(oProgressBar, oProgressStateBar);
+        AudioManager.setProBallDragStep();
+    };
+
+
+    /* events on audio */
+
+    oAudio.oncanplaythrough = function () {
+        if (AudioManager.isStart()) return;
+
+        AudioManager.startPlay();
+        oAudio.play();
+        AudioManager.toggleSwitch(oSwitch, oProgressBar);
+        AudioManager.initProgress();
+        AudioManager.initCountdown(oDuration);
+    };
+
+    oAudio.ontimeupdate = function () {
+        if (AudioManager.isDraggingProBall()) return;
+
+        var fCurTime = oAudio.currentTime;
+        AudioManager.moveProBall(oProgressBall, fCurTime);
+        AudioManager.updateCountdown(fCurTime, oCount);
+    };
+
+    oAudio.onended = function () {
+        AudioManager.toggleSwitch(oSwitch, oProgressBar);
+        AudioManager.reset(oProgressBall, oProgressBar, oCount, oDuration);
+        AudioManager.loadNextAccordingToMode(oSwitch, window);
+    };
+</script>
+
+</body>
+</html>
