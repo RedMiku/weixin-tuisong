@@ -40,7 +40,7 @@
         /*position: relative;*/
         z-index: 20;
         /*height: 60vh;*/
-        /*margin-top: 75vh;*/
+        margin-top: 75vh;
         width: 300%;
         /*background: linear-gradient(#393a3a 0%, rgb(23, 22, 22) 30%);*/
         /*border-radius: 50%;*/
@@ -50,7 +50,7 @@
     .happy-birthday__container {
         position: absolute;
         top: 130px;
-        display: flex;
+        display: grid;
         justify-content: center;
         width: 100%;
         opacity: .6;
@@ -58,9 +58,9 @@
     }
 
     .happy-birthday__container>div {
-        height: 100px;
-        width: 100px;
-        margin: 0 10px;
+        height: 35px;
+        width: 60px;
+        margin: 10px 0px;
         flex: 0 1 auto;
     }
 
@@ -193,6 +193,12 @@
         font-weight: bold;
         color: pink;
     }
+
+
+    /** 手机端适配 start **/
+
+    /** 手机端适配 end **/
+
 </style>
 <body>
 <div class="container">
@@ -433,8 +439,8 @@
 
     // 文字效果
     const BASE_CONFIG = {
-        width: 120,
-        height: 120,
+        width: 60,
+        height: 60,
         padding: 5,
         delayBetweenStrokes: 0,
         strokeAnimationSpeed: 1.2,
@@ -449,8 +455,8 @@
 
     const NAME_CONFIG = {
         ...BASE_CONFIG,
-        width: 150,
-        height: 150,
+        width: 80,
+        height: 80,
         strokeColor: '#eaf4fe'
     };
 

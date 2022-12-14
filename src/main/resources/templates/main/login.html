@@ -129,7 +129,7 @@
         .box .content {
             width: 85vw;
             height: 90vh;
-            /*background: url("./asset/login_two.jpg") no-repeat;*/
+            background: url("./asset/login_two.jpg") no-repeat;
             background-size: 90% 100%;
             position: absolute;
             right: 15%;
@@ -183,7 +183,7 @@
         .box .content {
             width: 100vw;
             height: 100vh;
-            background: url("./asset/login_bg_phone.png") no-repeat;
+            /*background: url("./asset/login_bg_phone.png") no-repeat;*/
             background-size: 100% 100%;
             display: flex;
             align-items: flex-start;
@@ -202,11 +202,11 @@
             margin: 10px 0;
         }
         .box .content .login-wrapper .login-form .form-item span {
-            color: rgb(113, 129, 141);
+            color: rgb(255, 255, 255);
         }
         .box .content .login-wrapper .login-form .form-item .input-item {
             height: 30px;
-            border: 1px solid rgb(113, 129, 141);
+            border: 1px solid rgb(255, 255, 255);
             background-color: transparent;
             color: #fff;
         }
@@ -238,11 +238,11 @@
             <h1>登录</h1>
             <div class="login-form">
                 <div class="username form-item">
-                    <span>使用邮箱或者刘刘号</span>
+                    <span>账号</span>
                     <input id="username" type="text" class="input-item">
                 </div>
                 <div class="password form-item">
-                    <span>密码（提示：你最喜欢的粉色的动物的英文小写单词）</span>
+                    <span>密码（你最喜欢颜色的英文小写单词）</span>
                     <input id="password" type="password" class="input-item">
                 </div>
                 <button class="login-btn" onclick="login()">登 录</button>
@@ -265,12 +265,14 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script>
 <script>
-
+    /**
+     * 登录事件
+     */
     const login=()=>{
         var username = $("#username").val();
         var password = $("#password").val();
 
-        var flag = username=="刘家静" && password=='pig';
+        var flag = username=="静静" && password=='pink';
         if(flag){
             alert('静静真聪明 (●\'◡\'●)');
             window.location.pathname = '/main/main.html';
@@ -279,14 +281,16 @@
         }
     }
 
+    /**
+     * qq 微信图标事件，假的
+     */
     $(document).ready(function () {
-
         $('.other-login-wrapper img').bind('click',function () {
             var src = $(this).attr('src');
             if(src.indexOf('QQ.png') != -1){
-                alert('鲜花赠niuniu (*＞◡❛)');
+                alert('鲜花赠niuniu (*＞◡❛) 功能暂未开通！');
             }else if(src.indexOf('WeChat.png') != -1){
-                alert('就是为了等静静 (⑅˃◡˂⑅)');
+                alert('就是为了等静静 (⑅˃◡˂⑅) 功能暂未开通too！');
             }
         });
     });

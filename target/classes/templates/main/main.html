@@ -8,6 +8,43 @@
     <title>❤欢迎静静❤</title>
 </head>
 <style type="text/css">
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    body{
+        /* 初始化 取消内外边距 */
+        margin: 0;
+        padding: 0;
+        /* 100%窗口高度 */
+        height: 100vh;
+        /* 弹性布局 水平垂直居中 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        /* 渐变背景 */
+        background: linear-gradient(125deg,#2c3e50,#27ae60,#2980b9,#e74c3c,#8e44ad);
+        /* 指定背景图像的大小 */
+        background-size: 500%;
+        /* 执行动画：动画名 时长 线性的 无限次播放 */
+        animation: bgAnimation 15s linear infinite;
+    }
+
+    /* 定义动画 */
+    @keyframes bgAnimation {
+        0%{
+            background-position: 0% 50%;
+        }
+        50%{
+            background-position: 100% 50%;
+        }
+        100%{
+            background-position: 0% 50%;
+        }
+    }
+
     html {
         /* 定义变量 */
         --bgColor: #e2c2e4;
@@ -23,7 +60,7 @@
         margin: 0;
         padding: 0;
         width: 100vw;
-        height: 70vh;
+        /*height: 70vh;*/
         justify-content: center;
         align-items: center;
         background-color: var(--bgColor);
@@ -91,18 +128,50 @@
 
 </style>
 <body>
-    <div class="card one">
-        <a href="../guagua/guagua.html">呱呱</a>
+    <div class="card one" onclick="funcA()">
+        致静静
     </div>
-    <div class="card two">
-        <a href="../clock/clock.html">滴答滴答</a>
+    <div class="card two" onclick="funcB()">
+<!--        <a href="../clock/clock.html">滴答滴答</a>-->
+        Jay能量
     </div>
-    <div class="card three">
-        <a href="../paint/paint.html">刷刷刷</a>
+    <div class="card three" onclick="funcC()">
+        刷刷刷
     </div>
-    <div class="card four">
-        <a href="../game1/game1.html">致静静</a>
+    <div class="card four" onclick="funcD()">
+        呱呱
     </div>
+
+    <script>
+        /**
+         * 事件A
+         */
+        const funcA=()=>{
+            window.location.pathname = '/game1/game1.html';
+        }
+
+        /**
+         * 事件B
+         */
+        const funcB=()=>{
+            window.location.pathname = '/song/index.html';
+        }
+
+        /**
+         * 事件C
+         */
+        const funcC=()=>{
+            // window.location.pathname = '/paint/paint.html';
+            window.location.pathname = '/flower/flower.html';
+        }
+
+        /**
+         * 事件D
+         */
+        const funcD=()=>{
+            window.location.pathname = '/guagua/guagua.html';
+        }
+    </script>
 </body>
 
 </html>
